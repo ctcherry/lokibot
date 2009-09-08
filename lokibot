@@ -1,0 +1,13 @@
+#!/usr/local/bin/ruby
+$:.push 'lib'
+
+require 'config/settings'
+require 'init'
+
+
+
+loki = LokiBot.new(:config => ARGV[0].to_s)
+
+trap('INT') { loki.deactivate }
+
+loki.start_listening

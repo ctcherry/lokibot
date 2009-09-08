@@ -1,0 +1,5 @@
+require 'inflector'
+require 'marshmallow'
+require 'loki_bot'
+require 'loki_dispatcher'
+require 'loki_plugin_base'

@@ -1,0 +1,6 @@
+configname:
+  domain: campfiresubdomain
+  public_url: roomurlcode
+  bot_name: Loki
+  trigger: loki
+  debug: false

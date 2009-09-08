@@ -1,0 +1,33 @@
+#!/usr/local/bin/ruby
+
+if ARGV[0].nil?
+  puts "\nUsage:\n\truby script/plugin some_plugin_name"
+  puts ""
+else
+  require 'lib/inflector'
+  require 'fileutils'
+  include FileUtils
+  
+  PLUGIN_PATH = File.join('lib', 'plugins')
+  
+  plugin_name = Inflector::underscore(ARGV[0].to_s)
+  
+  if File.exists?(File.join(PLUGIN_PATH, plugin_name).to_s)
+    puts "Plugin \"#{plugin_name}\" already exists."
+  else
+    # root and lib dirs for this plugin
+    FileUtils.mkdir_p(File.join(PLUGIN_PATH, plugin_name, 'lib'))
+    
+    # init file for this plugin
+    FileUtils.touch(File.join(PLUGIN_PATH, plugin_name, 'init.rb'))
+    init = File.new(File.join(PLUGIN_PATH, plugin_name, 'init.rb'), File::RDWR)
+    init.puts "load '#{plugin_name}.rb'"
+    
+    # main class file for this plugin
+    FileUtils.touch(File.join(PLUGIN_PATH, plugin_name, 'lib', "#{plugin_name}.rb"), :verbose => true)
+    plugin_file = File.new(File.join(PLUGIN_PATH, plugin_name, 'lib', "#{plugin_name}.rb"), File::RDWR)
+    plugin_file.puts "class #{Inflector::classify(plugin_name)} < LokiPluginBase\n\n\tdef initialize_commands\n\t\t# command /^some command*/i, :some_method\n\tend\n\nend"
+    
+    puts 'Plugin skeleton generated'
+  end
+end

@@ -1,0 +1,2 @@
+DEBUG = false
+TRIGGER = 'loki'
